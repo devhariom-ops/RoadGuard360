@@ -1,0 +1,1675 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SafeRoads – 3D Road Accident Awareness & Traffic Education Platform</title>
+  <meta name="description" content="SafeRoads is an interactive 3D road safety awareness platform educating users about traffic rules, accident prevention, and emergency response." />
+  <meta name="keywords" content="road safety, accident awareness, traffic rules, 3D learning, helmet, seat belt, safe driving" />
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Font Awesome 6 -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- Animate.css -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ============================================================
+     PRELOADER
+============================================================ -->
+<div id="preloader">
+  <div class="preloader-inner">
+    <div class="road-loader">
+      <div class="road-line"></div>
+      <div class="car-loader">
+        <i class="fas fa-car"></i>
+      </div>
+    </div>
+    <p class="loader-text">SafeRoads Loading<span class="dots">...</span></p>
+  </div>
+</div>
+
+<!-- ============================================================
+     SCROLL TO TOP
+============================================================ -->
+<button id="scrollTopBtn" title="Scroll to top"><i class="fas fa-chevron-up"></i></button>
+
+<!-- ============================================================
+     AI CHATBOT WIDGET
+============================================================ -->
+<div id="chatbot-widget">
+  <button id="chatbot-toggle" title="Road Safety AI Assistant">
+    <i class="fas fa-robot"></i>
+  </button>
+  <div id="chatbot-panel">
+    <div class="chatbot-header">
+      <div class="d-flex align-items-center gap-2">
+        <i class="fas fa-robot fs-5"></i>
+        <div>
+          <strong>SafeBot</strong>
+          <small class="d-block opacity-75">Road Safety AI Assistant</small>
+        </div>
+      </div>
+      <button id="chatbot-close"><i class="fas fa-times"></i></button>
+    </div>
+    <div id="chatbot-messages">
+      <div class="bot-msg">
+        <i class="fas fa-robot me-2"></i>
+        Hello! I'm SafeBot 🚦 Ask me anything about road safety, traffic rules, or accident prevention!
+      </div>
+    </div>
+    <div class="chatbot-input-area">
+      <input type="text" id="chatbot-input" placeholder="Ask about road safety..." />
+      <button id="chatbot-send"><i class="fas fa-paper-plane"></i></button>
+    </div>
+    <div class="quick-prompts">
+      <button class="quick-btn" data-q="What are helmet safety rules?">🪖 Helmet Rules</button>
+      <button class="quick-btn" data-q="What to do after an accident?">🚨 After Accident</button>
+      <button class="quick-btn" data-q="Speed limits in India?">🚗 Speed Limits</button>
+      <button class="quick-btn" data-q="Emergency numbers?">📞 Emergency</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     NAVIGATION BAR
+============================================================ -->
+<nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
+  <div class="container-fluid px-4">
+    <a class="navbar-brand" href="#home">
+      <div class="brand-logo">
+        <i class="fas fa-road"></i>
+        <span>Safe<strong>Roads</strong></span>
+      </div>
+    </a>
+    <div class="d-flex align-items-center gap-2 order-lg-last">
+      <button class="btn btn-sm theme-toggle" id="themeToggle" title="Toggle Dark/Light Mode">
+        <i class="fas fa-moon" id="themeIcon"></i>
+      </button>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span><i class="fas fa-bars"></i></span>
+      </button>
+    </div>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item"><a class="nav-link" href="#home"><i class="fas fa-home me-1"></i>Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="#about"><i class="fas fa-info-circle me-1"></i>About</a></li>
+        <li class="nav-item"><a class="nav-link" href="#traffic-rules"><i class="fas fa-traffic-light me-1"></i>Traffic Rules</a></li>
+        <li class="nav-item"><a class="nav-link" href="#accident-types"><i class="fas fa-car-crash me-1"></i>Accident Types</a></li>
+        <li class="nav-item"><a class="nav-link" href="#zone3d"><i class="fas fa-cube me-1"></i>3D Zone</a></li>
+        <li class="nav-item"><a class="nav-link" href="#traffic-signs"><i class="fas fa-sign me-1"></i>Signs</a></li>
+        <li class="nav-item"><a class="nav-link" href="#quiz"><i class="fas fa-question-circle me-1"></i>Quiz</a></li>
+        <li class="nav-item"><a class="nav-link" href="#report"><i class="fas fa-map-marker-alt me-1"></i>Report</a></li>
+        <li class="nav-item"><a class="nav-link emergency-link" href="#emergency"><i class="fas fa-ambulance me-1"></i>Emergency</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contact"><i class="fas fa-envelope me-1"></i>Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================================================
+     HERO SECTION
+============================================================ -->
+<section id="home" class="hero-section">
+  <canvas id="heroCanvas"></canvas>
+  <div class="hero-overlay"></div>
+  <div class="animated-road">
+    <div class="road-stripe" id="roadStripes"></div>
+  </div>
+  <div class="hero-content container">
+    <div class="row align-items-center min-vh-100 pt-5">
+      <div class="col-lg-8">
+        <div class="hero-badge animate__animated animate__fadeInDown">
+          <i class="fas fa-shield-alt me-2"></i>Road Safety Awareness Platform
+        </div>
+        <h1 class="hero-title animate__animated animate__fadeInUp">
+          Drive Smart.<br/>
+          <span class="gradient-text">Stay Alive.</span>
+        </h1>
+        <p class="hero-subtitle animate__animated animate__fadeInUp animate__delay-1s">
+          Every 4 minutes, a life is lost on Indian roads. Learn traffic rules, understand accident risks,
+          and become a road safety champion through our interactive 3D learning platform.
+        </p>
+        <div class="hero-buttons animate__animated animate__fadeInUp animate__delay-2s">
+          <a href="#zone3d" class="btn btn-hero-primary">
+            <i class="fas fa-cube me-2"></i>Enter 3D Zone
+          </a>
+          <a href="#quiz" class="btn btn-hero-secondary">
+            <i class="fas fa-question-circle me-2"></i>Take Quiz
+          </a>
+          <a href="#emergency" class="btn btn-hero-emergency">
+            <i class="fas fa-ambulance me-2"></i>Emergency Help
+          </a>
+        </div>
+      </div>
+      <div class="col-lg-4 d-none d-lg-flex justify-content-center">
+        <div class="hero-3d-element">
+          <canvas id="miniCarCanvas"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats Counter Bar -->
+  <div class="stats-bar">
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-6 col-md-3 stat-item">
+          <div class="stat-num" data-target="1329">0</div>
+          <div class="stat-label">Daily Accidents</div>
+        </div>
+        <div class="col-6 col-md-3 stat-item">
+          <div class="stat-num" data-target="485">0</div>
+          <div class="stat-label">Daily Fatalities</div>
+        </div>
+        <div class="col-6 col-md-3 stat-item">
+          <div class="stat-num" data-target="300000">0</div>
+          <div class="stat-label">Injuries / Year</div>
+        </div>
+        <div class="col-6 col-md-3 stat-item">
+          <div class="stat-num" data-target="50000">0</div>
+          <div class="stat-label">Lives Saved by Helmets</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     ABOUT ROAD SAFETY
+============================================================ -->
+<section id="about" class="section-pad">
+  <div class="container">
+    <div class="section-header text-center">
+      <span class="section-tag">About</span>
+      <h2 class="section-title">Why Road Safety <span class="gradient-text">Matters?</span></h2>
+      <p class="section-sub">Understanding the gravity of road accidents is the first step toward prevention.</p>
+    </div>
+    <div class="row g-4 mt-3">
+      <div class="col-md-6 col-lg-3">
+        <div class="about-card fade-in-up">
+          <div class="about-icon"><i class="fas fa-exclamation-triangle"></i></div>
+          <h5>Common Mistakes</h5>
+          <ul class="about-list">
+            <li><i class="fas fa-chevron-right"></i> Overspeeding</li>
+            <li><i class="fas fa-chevron-right"></i> Drunk Driving</li>
+            <li><i class="fas fa-chevron-right"></i> Distracted Driving</li>
+            <li><i class="fas fa-chevron-right"></i> No Helmet / Seatbelt</li>
+            <li><i class="fas fa-chevron-right"></i> Wrong Overtaking</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="about-card fade-in-up delay-1">
+          <div class="about-icon impact"><i class="fas fa-heart-broken"></i></div>
+          <h5>Impact on Society</h5>
+          <ul class="about-list">
+            <li><i class="fas fa-chevron-right"></i> Family devastation</li>
+            <li><i class="fas fa-chevron-right"></i> Economic burden ₹1.47L Cr/yr</li>
+            <li><i class="fas fa-chevron-right"></i> 5% of GDP lost</li>
+            <li><i class="fas fa-chevron-right"></i> Trauma & disability</li>
+            <li><i class="fas fa-chevron-right"></i> Orphaned children</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="about-card fade-in-up delay-2">
+          <div class="about-icon govt"><i class="fas fa-landmark"></i></div>
+          <h5>Govt Initiatives</h5>
+          <ul class="about-list">
+            <li><i class="fas fa-chevron-right"></i> Motor Vehicles Act 2019</li>
+            <li><i class="fas fa-chevron-right"></i> iRAD System</li>
+            <li><i class="fas fa-chevron-right"></i> SURAKSHA Project</li>
+            <li><i class="fas fa-chevron-right"></i> Helmet Awareness Drive</li>
+            <li><i class="fas fa-chevron-right"></i> Road Safety Week</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3">
+        <div class="about-card fade-in-up delay-3">
+          <div class="about-icon importance"><i class="fas fa-star"></i></div>
+          <h5>Why Awareness?</h5>
+          <ul class="about-list">
+            <li><i class="fas fa-chevron-right"></i> 90% accidents are preventable</li>
+            <li><i class="fas fa-chevron-right"></i> Education saves lives</li>
+            <li><i class="fas fa-chevron-right"></i> Better rule compliance</li>
+            <li><i class="fas fa-chevron-right"></i> Faster emergency response</li>
+            <li><i class="fas fa-chevron-right"></i> Community accountability</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- Impact visual -->
+    <div class="row mt-5 align-items-center">
+      <div class="col-lg-6 fade-in-up">
+        <h3 class="mb-4">India Road Accident <span class="gradient-text">Statistics 2023</span></h3>
+        <div class="progress-stat mb-3">
+          <div class="d-flex justify-content-between mb-1"><span>Overspeeding</span><span>62%</span></div>
+          <div class="progress"><div class="progress-bar bg-danger" style="width:62%"></div></div>
+        </div>
+        <div class="progress-stat mb-3">
+          <div class="d-flex justify-content-between mb-1"><span>Distracted Driving</span><span>28%</span></div>
+          <div class="progress"><div class="progress-bar bg-warning" style="width:28%"></div></div>
+        </div>
+        <div class="progress-stat mb-3">
+          <div class="d-flex justify-content-between mb-1"><span>Drunk Driving</span><span>15%</span></div>
+          <div class="progress"><div class="progress-bar bg-info" style="width:15%"></div></div>
+        </div>
+        <div class="progress-stat mb-3">
+          <div class="d-flex justify-content-between mb-1"><span>No Helmet / Seatbelt</span><span>35%</span></div>
+          <div class="progress"><div class="progress-bar" style="width:35%; background: var(--accent-green)"></div></div>
+        </div>
+      </div>
+      <div class="col-lg-6 fade-in-up delay-2">
+        <div class="about-highlight-box">
+          <i class="fas fa-road fa-3x mb-3" style="color:var(--accent-blue)"></i>
+          <h4>4,80,652 Accidents Reported in 2023</h4>
+          <p>India ranks #1 in road accident fatalities globally. But with awareness and action, we can change this narrative. Every road user has a responsibility.</p>
+          <div class="row g-3 mt-2">
+            <div class="col-4 text-center">
+              <div class="mini-stat">
+                <strong style="color:var(--accent-red)">1,68,491</strong>
+                <small>Deaths</small>
+              </div>
+            </div>
+            <div class="col-4 text-center">
+              <div class="mini-stat">
+                <strong style="color:var(--accent-yellow)">4,43,366</strong>
+                <small>Injured</small>
+              </div>
+            </div>
+            <div class="col-4 text-center">
+              <div class="mini-stat">
+                <strong style="color:var(--accent-green)">24 hrs</strong>
+                <small>Peak Time</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TRAFFIC RULES LEARNING MODULE
+============================================================ -->
+<section id="traffic-rules" class="section-pad bg-alt">
+  <div class="container">
+    <div class="section-header text-center">
+      <span class="section-tag">Learn</span>
+      <h2 class="section-title">Traffic Rules <span class="gradient-text">Learning Module</span></h2>
+      <p class="section-sub">Master every traffic rule with our comprehensive interactive guide</p>
+    </div>
+    <div class="rules-tabs mt-4">
+      <ul class="nav nav-pills rules-nav justify-content-center flex-wrap gap-2 mb-4" id="rulesTab">
+        <li class="nav-item"><button class="nav-link active" data-bs-toggle="pill" data-bs-target="#ped"><i class="fas fa-walking me-1"></i>Pedestrian</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#two"><i class="fas fa-motorcycle me-1"></i>Two-Wheeler</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#four"><i class="fas fa-car me-1"></i>Four-Wheeler</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#highway"><i class="fas fa-road me-1"></i>Highway</button></li>
+      </ul>
+      <div class="tab-content" id="rulesTabContent">
+        <!-- Pedestrian -->
+        <div class="tab-pane fade show active" id="ped">
+          <div class="row g-3">
+            <div class="col-md-6 col-lg-4"><div class="rule-card"><div class="rule-icon"><i class="fas fa-crosshairs"></i></div><h6>Use Zebra Crossings</h6><p>Always use designated zebra crossings. Never jaywalk even if the road seems empty.</p></div></div>
+            <div class="col-md-6 col-lg-4"><div class="rule-card"><div class="rule-icon"><i class="fas fa-traffic-light"></i></div><h6>Obey Walk Signals</h6><p>Wait for the green pedestrian signal before crossing. The red man means STOP.</p></div></div>
+            <div class="col-md-6 col-lg-4"><div class="rule-card"><div class="rule-icon"><i class="fas fa-eye"></i></div><h6>Look Both Ways</h6><p>Even at green signal, look left-right-left before crossing. Stay alert always.</p></div></div>
+            <div class="col-md-6 col-lg-4"><div class="rule-card"><div class="rule-icon"><i class="fas fa-mobile-alt"></i></div><h6>No Phone While Walking</h6><p>Avoid using mobile phones while crossing the road. Distraction kills.</p></div></div>
+            <div class="col-md-6 col-lg-4"><div class="rule-card"><div class="rule-icon"><i class="fas fa-moon"></i></div><h6>Night Visibility</h6><p>Wear bright/reflective clothing at night. Walk on the right side facing traffic.</p></div></div>
+            <div class="col-md-6 col-lg-4"><div class="rule-card"><div class="rule-icon"><i class="fas fa-child"></i></div><h6>Children's Safety</h6><p>Hold children's hands firmly near roads. Teach them traffic rules from an early age.</p></div></div>
+          </div>
+        </div>
+        <!-- Two-Wheeler -->
+        <div class="tab-pane fade" id="two">
+          <div class="row g-3">
+            <div class="col-md-6 col-lg-4"><div class="rule-card"><div class="rule-icon helmet-icon"><i class="fas fa-hard-hat"></i></div><h6>Helmet is Mandatory</h6><p>ISI-certified helmet for both rider and pillion. Fine ₹1,000 + license suspension without helmet.</p></div></div>
+            <div class="col-md-6 col-lg-4"><div class="rule-card"><div class="rule-icon"><i class="fas fa-tachometer-alt"></i></div><h6>Speed Limits</h6><p>Urban: 50 km/h | Rural: 60 km/h | Highway: 80 km/h for two-wheelers.</p></div></div>
+            <div class="col-md-6 col-lg-4"><div class="rule-card"><div class="rule-icon"><i class="fas fa-arrow-right"></i></div><h6>Lane Discipline</h6><p>Ride in the left lane. Avoid weaving between lanes. Use turn signals before every lane change.</p></div></div>
+            <div class="col-md-6 col-lg-4"><div class="rule-card"><div class="rule-icon"><i class="fas fa-users"></i></div><h6>No Triple Riding</h6><p>Only the rider and one pillion allowed. Triple riding is illegal and dangerous.</p></div></div>
+            <div class="col-md-6 col-lg-4"><div class="rule-card"><div class="rule-icon"><i class="fas fa-lightbulb"></i></div><h6>Use Headlights</h6><p>Mandatory headlight usage even during daytime for better visibility to other drivers.</p></div></div>
+            <div class="col-md-6 col-lg-4"><div class="rule-card"><div class="rule-icon"><i class="fas fa-ban"></i></div><h6>No Drunk Riding</h6><p>Blood Alcohol Limit: 30mg/100ml. Drunk riding leads to fine, jail, and death.</p></div></div>
+          </div>
+        </div>
+        <!-- Four-Wheeler -->
+        <div class="tab-pane fade" id="four">
+          <div class="row g-3">
+            <div class="col-md-6 col-lg-4"><div class="rule-card"><div class="rule-icon"><i class="fas fa-chair"></i></div><h6>Seatbelt for All</h6><p>Mandatory for driver and all passengers. Reduces fatality risk by 45%. Fine: ₹1,000.</p></div></div>
+            <div class="col-md-6 col-lg-4"><div class="rule-card"><div class="rule-icon"><i class="fas fa-arrows-alt-h"></i></div><h6>Safe Overtaking</h6><p>Overtake from the right side only. Check mirrors, signal, ensure clear vision before overtaking.</p></div></div>
+            <div class="col-md-6 col-lg-4"><div class="rule-card"><div class="rule-icon"><i class="fas fa-parking"></i></div><h6>Parking Rules</h6><p>Never park on zebra crossings, bus stops, or fire hydrant zones. Use designated parking areas.</p></div></div>
+            <div class="col-md-6 col-lg-4"><div class="rule-card"><div class="rule-icon"><i class="fas fa-bell"></i></div><h6>Use Indicators</h6><p>Indicate 30 meters before turning. Never use hazard lights while driving in rain.</p></div></div>
+            <div class="col-md-6 col-lg-4"><div class="rule-card"><div class="rule-icon"><i class="fas fa-mobile-slash"></i></div><h6>No Phone Driving</h6><p>Using phone while driving: Fine ₹5,000 + 3-month license suspension.</p></div></div>
+            <div class="col-md-6 col-lg-4"><div class="rule-card"><div class="rule-icon"><i class="fas fa-baby"></i></div><h6>Child Safety Seat</h6><p>Children below 4 years must use car seats. Airbag deployment can be fatal for children in front seats.</p></div></div>
+          </div>
+        </div>
+        <!-- Highway -->
+        <div class="tab-pane fade" id="highway">
+          <div class="row g-3">
+            <div class="col-md-6 col-lg-4"><div class="rule-card"><div class="rule-icon"><i class="fas fa-layer-group"></i></div><h6>Lane Discipline</h6><p>Slow vehicles: left lane | Medium: middle | Fast: right lane. Never straddle lanes.</p></div></div>
+            <div class="col-md-6 col-lg-4"><div class="rule-card"><div class="rule-icon"><i class="fas fa-ambulance"></i></div><h6>Emergency Lane</h6><p>Emergency lane is ONLY for ambulance, fire, and police. Misuse: Fine ₹10,000.</p></div></div>
+            <div class="col-md-6 col-lg-4"><div class="rule-card"><div class="rule-icon"><i class="fas fa-moon"></i></div><h6>Night Driving</h6><p>Use high beam only when no oncoming traffic. Take regular breaks every 2 hours.</p></div></div>
+            <div class="col-md-6 col-lg-4"><div class="rule-card"><div class="rule-icon"><i class="fas fa-truck"></i></div><h6>Heavy Vehicles</h6><p>Maintain safe following distance of at least 50m behind trucks and heavy vehicles.</p></div></div>
+            <div class="col-md-6 col-lg-4"><div class="rule-card"><div class="rule-icon"><i class="fas fa-gas-pump"></i></div><h6>Fuel & Tyres</h6><p>Check tyres, fuel and fluids before long drives. Tyre blowout causes 7% highway deaths.</p></div></div>
+            <div class="col-md-6 col-lg-4"><div class="rule-card"><div class="rule-icon"><i class="fas fa-cloud-rain"></i></div><h6>Rain Driving</h6><p>Reduce speed by 30% in rain. Keep wipers and headlights on. Double the following distance.</p></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TYPES OF ROAD ACCIDENTS
+============================================================ -->
+<section id="accident-types" class="section-pad">
+  <div class="container">
+    <div class="section-header text-center">
+      <span class="section-tag">Awareness</span>
+      <h2 class="section-title">Types of <span class="gradient-text">Road Accidents</span></h2>
+      <p class="section-sub">Understanding accident types helps in prevention. Click any card to learn more.</p>
+    </div>
+    <div class="row g-4 mt-3">
+
+      <div class="col-md-6 col-lg-4">
+        <div class="accident-card" data-accident="headon">
+          <div class="accident-icon-wrap" style="--clr:#ef4444">
+            <div class="accident-svg">
+              <svg viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg">
+                <rect x="5" y="25" width="38" height="16" rx="4" fill="#ef4444" opacity="0.9"/>
+                <rect x="57" y="25" width="38" height="16" rx="4" fill="#3b82f6" opacity="0.9"/>
+                <circle cx="15" cy="41" r="5" fill="#1a1a2e"/><circle cx="33" cy="41" r="5" fill="#1a1a2e"/>
+                <circle cx="67" cy="41" r="5" fill="#1a1a2e"/><circle cx="85" cy="41" r="5" fill="#1a1a2e"/>
+                <polygon points="43,33 57,33 50,28" fill="#facc15"/>
+                <line x1="45" y1="18" x2="55" y2="18" stroke="#facc15" stroke-width="2"/>
+              </svg>
+            </div>
+          </div>
+          <div class="accident-body">
+            <span class="accident-badge" style="background:#ef444420;color:#ef4444">High Severity</span>
+            <h5>Head-on Collision</h5>
+            <p>Two vehicles collide front-to-front, often at high speed. Most lethal type of accident.</p>
+            <div class="accident-meta">
+              <span><i class="fas fa-exclamation me-1"></i>Wrong side driving</span>
+              <span><i class="fas fa-shield-alt me-1"></i>Stay left, no overtaking</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4">
+        <div class="accident-card" data-accident="rearend">
+          <div class="accident-icon-wrap" style="--clr:#f97316">
+            <div class="accident-svg">
+              <svg viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg">
+                <rect x="5" y="22" width="38" height="16" rx="4" fill="#3b82f6" opacity="0.9"/>
+                <rect x="57" y="22" width="38" height="16" rx="4" fill="#f97316" opacity="0.9"/>
+                <circle cx="15" cy="38" r="5" fill="#1a1a2e"/><circle cx="33" cy="38" r="5" fill="#1a1a2e"/>
+                <circle cx="67" cy="38" r="5" fill="#1a1a2e"/><circle cx="85" cy="38" r="5" fill="#1a1a2e"/>
+                <polygon points="53,30 45,26 45,34" fill="#facc15"/>
+                <text x="57" y="18" font-size="8" fill="#f97316" font-family="Arial">REAR</text>
+              </svg>
+            </div>
+          </div>
+          <div class="accident-body">
+            <span class="accident-badge" style="background:#f9731620;color:#f97316">Very Common</span>
+            <h5>Rear-end Collision</h5>
+            <p>Vehicle crashes into the back of another. Usually caused by tailgating or sudden braking.</p>
+            <div class="accident-meta">
+              <span><i class="fas fa-exclamation me-1"></i>Tailgating, phone use</span>
+              <span><i class="fas fa-shield-alt me-1"></i>Keep safe distance</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4">
+        <div class="accident-card" data-accident="sideimpact">
+          <div class="accident-icon-wrap" style="--clr:#a855f7">
+            <div class="accident-svg">
+              <svg viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg">
+                <rect x="10" y="22" width="38" height="16" rx="4" fill="#3b82f6" opacity="0.9"/>
+                <rect x="60" y="5" width="16" height="38" rx="4" fill="#a855f7" opacity="0.9"/>
+                <circle cx="20" cy="38" r="5" fill="#1a1a2e"/><circle cx="38" cy="38" r="5" fill="#1a1a2e"/>
+                <polygon points="50,30 58,26 58,34" fill="#facc15"/>
+              </svg>
+            </div>
+          </div>
+          <div class="accident-body">
+            <span class="accident-badge" style="background:#a855f720;color:#a855f7">T-Bone</span>
+            <h5>Side-impact Collision</h5>
+            <p>T-bone crash at intersections. Often fatal due to less protection on the sides of vehicles.</p>
+            <div class="accident-meta">
+              <span><i class="fas fa-exclamation me-1"></i>Red light jumping</span>
+              <span><i class="fas fa-shield-alt me-1"></i>Obey traffic signals</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4">
+        <div class="accident-card" data-accident="rollover">
+          <div class="accident-icon-wrap" style="--clr:#eab308">
+            <div class="accident-svg">
+              <svg viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg">
+                <rect x="30" y="20" width="38" height="16" rx="4" fill="#eab308" opacity="0.9" transform="rotate(-30 49 28)"/>
+                <circle cx="35" cy="48" r="5" fill="#1a1a2e"/><circle cx="65" cy="30" r="5" fill="#1a1a2e"/>
+                <path d="M20 50 Q50 10 80 50" stroke="#eab308" stroke-width="2" fill="none" stroke-dasharray="4"/>
+                <text x="42" y="55" font-size="7" fill="#eab308" font-family="Arial">ROLLOVER</text>
+              </svg>
+            </div>
+          </div>
+          <div class="accident-body">
+            <span class="accident-badge" style="background:#eab30820;color:#eab308">Violent</span>
+            <h5>Rollover Accident</h5>
+            <p>Vehicle flips over due to excessive speed, sharp turns, or tire blowouts on highways.</p>
+            <div class="accident-meta">
+              <span><i class="fas fa-exclamation me-1"></i>High speed, sharp turns</span>
+              <span><i class="fas fa-shield-alt me-1"></i>Seatbelt, slow down</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4">
+        <div class="accident-card" data-accident="motorcycle">
+          <div class="accident-icon-wrap" style="--clr:#ec4899">
+            <div class="accident-svg">
+              <svg viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="30" cy="40" rx="12" ry="12" fill="none" stroke="#ec4899" stroke-width="3"/>
+                <ellipse cx="70" cy="40" rx="12" ry="12" fill="none" stroke="#ec4899" stroke-width="3"/>
+                <path d="M30 28 L45 20 L65 20 L70 28" stroke="#ec4899" stroke-width="3" fill="none"/>
+                <circle cx="50" cy="14" r="6" fill="#facc15"/>
+                <line x1="50" y1="20" x2="50" y2="28" stroke="#ec4899" stroke-width="2"/>
+                <polygon points="20,50 15,42 25,42" fill="#ef4444" opacity="0.8"/>
+              </svg>
+            </div>
+          </div>
+          <div class="accident-body">
+            <span class="accident-badge" style="background:#ec489920;color:#ec4899">Vulnerable</span>
+            <h5>Motorcycle Accident</h5>
+            <p>Riders are 29x more likely to die than car occupants. Helmet reduces head injury by 69%.</p>
+            <div class="accident-meta">
+              <span><i class="fas fa-exclamation me-1"></i>No helmet, speeding</span>
+              <span><i class="fas fa-shield-alt me-1"></i>Full gear, safe speed</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4">
+        <div class="accident-card" data-accident="pedestrian">
+          <div class="accident-icon-wrap" style="--clr:#06b6d4">
+            <div class="accident-svg">
+              <svg viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg">
+                <rect x="5" y="30" width="55" height="16" rx="4" fill="#3b82f6" opacity="0.9"/>
+                <circle cx="15" cy="46" r="5" fill="#1a1a2e"/><circle cx="50" cy="46" r="5" fill="#1a1a2e"/>
+                <circle cx="80" cy="15" r="6" fill="#06b6d4"/>
+                <line x1="80" y1="21" x2="80" y2="38" stroke="#06b6d4" stroke-width="2"/>
+                <line x1="74" y1="28" x2="86" y2="28" stroke="#06b6d4" stroke-width="2"/>
+                <line x1="76" y1="45" x2="80" y2="38" stroke="#06b6d4" stroke-width="2"/>
+                <line x1="84" y1="45" x2="80" y2="38" stroke="#06b6d4" stroke-width="2"/>
+                <polygon points="60,38 68,34 68,42" fill="#facc15"/>
+              </svg>
+            </div>
+          </div>
+          <div class="accident-body">
+            <span class="accident-badge" style="background:#06b6d420;color:#06b6d4">Critical</span>
+            <h5>Pedestrian Accident</h5>
+            <p>Pedestrians struck by vehicles account for 16% of road fatalities in India.</p>
+            <div class="accident-meta">
+              <span><i class="fas fa-exclamation me-1"></i>Jaywalking, no crosswalk</span>
+              <span><i class="fas fa-shield-alt me-1"></i>Use zebra crossings</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4">
+        <div class="accident-card" data-accident="drunk">
+          <div class="accident-icon-wrap" style="--clr:#ef4444">
+            <div class="accident-svg">
+              <svg viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg">
+                <rect x="5" y="28" width="42" height="16" rx="4" fill="#ef4444" opacity="0.9" transform="rotate(-5 26 36)"/>
+                <circle cx="15" cy="44" r="5" fill="#1a1a2e"/><circle cx="37" cy="46" r="5" fill="#1a1a2e"/>
+                <text x="50" y="20" font-size="22" fill="#facc15">🍺</text>
+                <path d="M55 35 Q65 25 75 35 Q85 45 95 35" stroke="#ef4444" stroke-width="2" fill="none" stroke-dasharray="3"/>
+                <text x="42" y="55" font-size="6" fill="#ef4444" font-family="Arial">DRUNK DRIVING</text>
+              </svg>
+            </div>
+          </div>
+          <div class="accident-body">
+            <span class="accident-badge" style="background:#ef444420;color:#ef4444">Criminal</span>
+            <h5>Drunk Driving</h5>
+            <p>Alcohol impairs judgment by 50% at 0.08% BAC. 15,000+ deaths annually from drunk driving.</p>
+            <div class="accident-meta">
+              <span><i class="fas fa-exclamation me-1"></i>Alcohol, drugs, fatigue</span>
+              <span><i class="fas fa-shield-alt me-1"></i>Zero tolerance, cab service</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4">
+        <div class="accident-card" data-accident="speed">
+          <div class="accident-icon-wrap" style="--clr:#f97316">
+            <div class="accident-svg">
+              <svg viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg">
+                <rect x="20" y="28" width="42" height="16" rx="4" fill="#f97316" opacity="0.9"/>
+                <circle cx="30" cy="44" r="5" fill="#1a1a2e"/><circle cx="52" cy="44" r="5" fill="#1a1a2e"/>
+                <line x1="5" y1="33" x2="15" y2="33" stroke="#f97316" stroke-width="2" stroke-dasharray="3"/>
+                <line x1="5" y1="38" x2="15" y2="38" stroke="#f97316" stroke-width="2" stroke-dasharray="3"/>
+                <line x1="5" y1="43" x2="15" y2="43" stroke="#f97316" stroke-width="2" stroke-dasharray="3"/>
+                <text x="64" y="40" font-size="10" fill="#ef4444" font-family="Arial" font-weight="bold">💥</text>
+                <text x="62" y="55" font-size="6" fill="#f97316" font-family="Arial">OVERSPEED</text>
+              </svg>
+            </div>
+          </div>
+          <div class="accident-body">
+            <span class="accident-badge" style="background:#f9731620;color:#f97316">Most Common</span>
+            <h5>Overspeeding Accident</h5>
+            <p>62% of all road deaths involve overspeeding. At 100 km/h, stopping distance is 100+ meters.</p>
+            <div class="accident-meta">
+              <span><i class="fas fa-exclamation me-1"></i>Ignoring speed limits</span>
+              <span><i class="fas fa-shield-alt me-1"></i>Obey limits, slow down</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4">
+        <div class="accident-card" data-accident="distracted">
+          <div class="accident-icon-wrap" style="--clr:#8b5cf6">
+            <div class="accident-svg">
+              <svg viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg">
+                <rect x="5" y="28" width="42" height="16" rx="4" fill="#3b82f6" opacity="0.9"/>
+                <circle cx="15" cy="44" r="5" fill="#1a1a2e"/><circle cx="37" cy="44" r="5" fill="#1a1a2e"/>
+                <rect x="26" y="10" width="14" height="22" rx="2" fill="#8b5cf6"/>
+                <rect x="28" y="12" width="10" height="16" rx="1" fill="#1a1a2e"/>
+                <line x1="30" y1="32" x2="30" y2="28" stroke="#8b5cf6" stroke-width="2"/>
+                <text x="50" y="45" font-size="8" fill="#ef4444" font-family="Arial">CRASH!</text>
+              </svg>
+            </div>
+          </div>
+          <div class="accident-body">
+            <span class="accident-badge" style="background:#8b5cf620;color:#8b5cf6">Growing</span>
+            <h5>Distracted Driving</h5>
+            <p>5 seconds on phone at 80 km/h = driving blindfolded for 110 meters. 28% of accidents.</p>
+            <div class="accident-meta">
+              <span><i class="fas fa-exclamation me-1"></i>Mobile, food, music</span>
+              <span><i class="fas fa-shield-alt me-1"></i>Phone silent, focus 100%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4">
+        <div class="accident-card" data-accident="night">
+          <div class="accident-icon-wrap" style="--clr:#6366f1">
+            <div class="accident-svg">
+              <svg viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg">
+                <rect width="100" height="60" fill="#0a0a1a" rx="6"/>
+                <rect x="5" y="28" width="42" height="16" rx="4" fill="#6366f1" opacity="0.9"/>
+                <circle cx="15" cy="44" r="5" fill="#2a2a4a"/><circle cx="37" cy="44" r="5" fill="#2a2a4a"/>
+                <circle cx="80" cy="15" r="8" fill="#facc1540" stroke="#facc15" stroke-width="1"/>
+                <text x="76" y="19" font-size="10" fill="#facc15">☽</text>
+                <line x1="47" y1="36" x2="65" y2="28" stroke="#facc15" stroke-width="1.5"/>
+                <line x1="47" y1="36" x2="65" y2="36" stroke="#facc15" stroke-width="1.5"/>
+              </svg>
+            </div>
+          </div>
+          <div class="accident-body">
+            <span class="accident-badge" style="background:#6366f120;color:#6366f1">Night Risk</span>
+            <h5>Night-time Accident</h5>
+            <p>40% of fatal accidents occur at night despite only 25% of traffic. Poor visibility is the main cause.</p>
+            <div class="accident-meta">
+              <span><i class="fas fa-exclamation me-1"></i>Poor visibility, fatigue</span>
+              <span><i class="fas fa-shield-alt me-1"></i>Proper lights, take breaks</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     3D AWARENESS ZONE
+============================================================ -->
+<section id="zone3d" class="section-pad bg-alt">
+  <div class="container-fluid px-4">
+    <div class="section-header text-center">
+      <span class="section-tag">Interactive</span>
+      <h2 class="section-title">3D <span class="gradient-text">Awareness Zone</span></h2>
+      <p class="section-sub">Experience road safety through immersive 3D simulations powered by Three.js & WebGL</p>
+    </div>
+
+    <div class="zone3d-tabs mt-4">
+      <div class="d-flex flex-wrap justify-content-center gap-3 mb-4">
+        <button class="zone-tab-btn active" data-scene="traffic">
+          <i class="fas fa-traffic-light me-2"></i>Traffic Signal
+        </button>
+        <button class="zone-tab-btn" data-scene="helmet">
+          <i class="fas fa-hard-hat me-2"></i>Helmet Safety
+        </button>
+        <button class="zone-tab-btn" data-scene="seatbelt">
+          <i class="fas fa-chair me-2"></i>Seatbelt
+        </button>
+        <button class="zone-tab-btn" data-scene="drunk">
+          <i class="fas fa-beer me-2"></i>Drunk Driving
+        </button>
+      </div>
+
+      <!-- 3D Canvas -->
+      <div class="scene3d-container">
+        <canvas id="scene3d"></canvas>
+        <div class="scene3d-overlay" id="scene3dOverlay">
+          <div class="scene-info" id="sceneInfo">
+            <div class="scene-badge"><i class="fas fa-traffic-light me-2"></i>Traffic Signal Simulator</div>
+            <h4 id="sceneTitle">Interactive Traffic Light System</h4>
+            <p id="sceneDesc">Click on the traffic light to change signals. Learn what each color means and the proper response.</p>
+            <div class="scene-controls" id="sceneControls">
+              <button class="btn btn-scene" id="sceneActionBtn"><i class="fas fa-play me-2"></i>Interact</button>
+              <div class="signal-legend">
+                <span class="sig-red">🔴 STOP</span>
+                <span class="sig-yellow">🟡 READY</span>
+                <span class="sig-green">🟢 GO</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="scene3d-label">
+          <i class="fas fa-vr-cardboard me-2"></i>
+          <span id="sceneLabelText">Traffic Signal Simulator – Click INTERACT to begin</span>
+        </div>
+      </div>
+
+      <!-- Scene Descriptions Panel -->
+      <div class="row g-4 mt-4">
+        <div class="col-md-6 col-lg-3">
+          <div class="scene-desc-card active-scene" id="desc-traffic">
+            <i class="fas fa-traffic-light"></i>
+            <h6>Traffic Signal</h6>
+            <p>Learn Red, Yellow & Green signals interactively. Understand pedestrian signals & countdown timers.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="scene-desc-card" id="desc-helmet">
+            <i class="fas fa-hard-hat"></i>
+            <h6>Helmet Safety Demo</h6>
+            <p>See impact force comparison — with vs without helmet. Visualize how ISI helmets absorb shock.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="scene-desc-card" id="desc-seatbelt">
+            <i class="fas fa-chair"></i>
+            <h6>Seatbelt Simulation</h6>
+            <p>Watch crash physics. See how a seatbelt prevents ejection and reduces impact force by 45%.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="scene-desc-card" id="desc-drunk">
+            <i class="fas fa-beer"></i>
+            <h6>Drunk Driving Sim</h6>
+            <p>Experience impaired reaction times visually. See lane deviation and braking failure effects.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TRAFFIC SIGNS SECTION
+============================================================ -->
+<section id="traffic-signs" class="section-pad">
+  <div class="container">
+    <div class="section-header text-center">
+      <span class="section-tag">Signs</span>
+      <h2 class="section-title">Traffic Signs <span class="gradient-text">Learning</span></h2>
+      <p class="section-sub">Know your signs — every shape and color has a meaning that could save your life</p>
+    </div>
+    <div class="signs-filter d-flex flex-wrap justify-content-center gap-2 mt-4 mb-4">
+      <button class="signs-filter-btn active" data-filter="all">All Signs</button>
+      <button class="signs-filter-btn" data-filter="warning">⚠️ Warning</button>
+      <button class="signs-filter-btn" data-filter="mandatory">🔵 Mandatory</button>
+      <button class="signs-filter-btn" data-filter="informative">🟢 Informative</button>
+      <button class="signs-filter-btn" data-filter="prohibition">🔴 Prohibition</button>
+    </div>
+    <div class="row g-3" id="signsGrid">
+
+      <div class="col-6 col-md-4 col-lg-3 sign-item warning">
+        <div class="sign-card">
+          <div class="sign-visual warning-sign"><div class="sign-triangle"><span>!</span></div></div>
+          <div class="sign-info"><strong>Dangerous Curve</strong><small>Warning: Sharp bend ahead, slow down</small></div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3 sign-item warning">
+        <div class="sign-card">
+          <div class="sign-visual warning-sign"><div class="sign-triangle"><i class="fas fa-road" style="font-size:14px"></i></div></div>
+          <div class="sign-info"><strong>Road Narrows</strong><small>Warning: Road becomes narrow ahead</small></div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3 sign-item warning">
+        <div class="sign-card">
+          <div class="sign-visual warning-sign"><div class="sign-triangle"><i class="fas fa-train" style="font-size:14px"></i></div></div>
+          <div class="sign-info"><strong>Railway Crossing</strong><small>Warning: Unmanned railway crossing ahead</small></div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3 sign-item warning">
+        <div class="sign-card">
+          <div class="sign-visual warning-sign"><div class="sign-triangle"><i class="fas fa-child" style="font-size:14px"></i></div></div>
+          <div class="sign-info"><strong>School Zone</strong><small>Warning: Children crossing — drive slow</small></div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3 sign-item mandatory">
+        <div class="sign-card">
+          <div class="sign-visual mandatory-sign"><div class="sign-circle blue"><i class="fas fa-arrows-alt-h" style="font-size:18px"></i></div></div>
+          <div class="sign-info"><strong>Keep Left</strong><small>Mandatory: Always drive on the left side</small></div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3 sign-item mandatory">
+        <div class="sign-card">
+          <div class="sign-visual mandatory-sign"><div class="sign-circle blue"><span style="font-size:16px;font-weight:900">50</span></div></div>
+          <div class="sign-info"><strong>Speed Limit 50</strong><small>Mandatory: Max speed 50 km/h</small></div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3 sign-item mandatory">
+        <div class="sign-card">
+          <div class="sign-visual mandatory-sign"><div class="sign-circle blue"><i class="fas fa-hard-hat" style="font-size:18px"></i></div></div>
+          <div class="sign-info"><strong>Helmet Required</strong><small>Mandatory: Wear helmet at all times</small></div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3 sign-item mandatory">
+        <div class="sign-card">
+          <div class="sign-visual mandatory-sign"><div class="sign-circle blue"><i class="fas fa-horn" style="font-size:14px">📯</i></div></div>
+          <div class="sign-info"><strong>Horn Prohibited</strong><small>Mandatory: No horn in silent zone</small></div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3 sign-item prohibition">
+        <div class="sign-card">
+          <div class="sign-visual prohibition-sign"><div class="sign-circle red"><i class="fas fa-ban" style="font-size:18px"></i></div></div>
+          <div class="sign-info"><strong>No Entry</strong><small>Prohibition: Entry not allowed</small></div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3 sign-item prohibition">
+        <div class="sign-card">
+          <div class="sign-visual prohibition-sign"><div class="sign-circle red"><i class="fas fa-parking" style="font-size:18px"></i><span style="position:absolute;font-size:22px;top:-2px;right:-4px;color:#ef4444">×</span></div></div>
+          <div class="sign-info"><strong>No Parking</strong><small>Prohibition: Parking not allowed here</small></div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3 sign-item prohibition">
+        <div class="sign-card">
+          <div class="sign-visual prohibition-sign"><div class="sign-circle red"><i class="fas fa-motorcycle" style="font-size:16px"></i></div></div>
+          <div class="sign-info"><strong>No Two-Wheeler</strong><small>Prohibition: Motorcycles prohibited</small></div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3 sign-item informative">
+        <div class="sign-card">
+          <div class="sign-visual informative-sign"><div class="sign-rect green"><i class="fas fa-hospital" style="font-size:18px"></i></div></div>
+          <div class="sign-info"><strong>Hospital Ahead</strong><small>Informative: Medical facility nearby</small></div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3 sign-item informative">
+        <div class="sign-card">
+          <div class="sign-visual informative-sign"><div class="sign-rect green"><i class="fas fa-gas-pump" style="font-size:18px"></i></div></div>
+          <div class="sign-info"><strong>Petrol Pump</strong><small>Informative: Fuel station ahead</small></div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3 sign-item informative">
+        <div class="sign-card">
+          <div class="sign-visual informative-sign"><div class="sign-rect green"><i class="fas fa-parking" style="font-size:18px"></i></div></div>
+          <div class="sign-info"><strong>Parking</strong><small>Informative: Parking area ahead</small></div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3 sign-item informative">
+        <div class="sign-card">
+          <div class="sign-visual informative-sign"><div class="sign-rect green"><i class="fas fa-utensils" style="font-size:18px"></i></div></div>
+          <div class="sign-info"><strong>Restaurant</strong><small>Informative: Food available nearby</small></div>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3 sign-item warning">
+        <div class="sign-card">
+          <div class="sign-visual warning-sign"><div class="sign-triangle"><i class="fas fa-tint" style="font-size:14px"></i></div></div>
+          <div class="sign-info"><strong>Slippery Road</strong><small>Warning: Wet/slippery surface ahead</small></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     QUIZ SECTION
+============================================================ -->
+<section id="quiz" class="section-pad bg-alt">
+  <div class="container">
+    <div class="section-header text-center">
+      <span class="section-tag">Test Your Knowledge</span>
+      <h2 class="section-title">Road Safety <span class="gradient-text">Quiz & Certificate</span></h2>
+      <p class="section-sub">Answer 10 questions to earn your Road Safety Champion certificate!</p>
+    </div>
+
+    <div class="quiz-wrapper mt-4">
+      <!-- Quiz Start Screen -->
+      <div id="quizStart" class="quiz-screen active">
+        <div class="quiz-start-box text-center">
+          <div class="quiz-trophy"><i class="fas fa-trophy"></i></div>
+          <h3>Ready to Test Your Knowledge?</h3>
+          <p>10 MCQ questions on Traffic Signs, Road Rules & Accident Prevention</p>
+          <div class="quiz-features row g-3 mt-3">
+            <div class="col-4"><div class="quiz-feat"><i class="fas fa-clock"></i><span>30 sec/Q</span></div></div>
+            <div class="col-4"><div class="quiz-feat"><i class="fas fa-star"></i><span>Certificate</span></div></div>
+            <div class="col-4"><div class="quiz-feat"><i class="fas fa-medal"></i><span>Leaderboard</span></div></div>
+          </div>
+          <div class="mt-4 d-flex gap-3 justify-content-center flex-wrap">
+            <input type="text" id="quizPlayerName" placeholder="Enter your name" class="quiz-name-input" />
+            <button class="btn btn-quiz-start" id="startQuizBtn">
+              <i class="fas fa-play me-2"></i>Start Quiz
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quiz Question Screen -->
+      <div id="quizQuestion" class="quiz-screen">
+        <div class="quiz-header-bar">
+          <div class="quiz-progress-info">
+            <span id="qNum">Question 1/10</span>
+            <div class="quiz-progress-bar"><div id="qProgress" style="width:10%"></div></div>
+          </div>
+          <div class="quiz-timer">
+            <i class="fas fa-clock me-1"></i><span id="qTimer">30</span>s
+          </div>
+          <div class="quiz-score-display">
+            Score: <span id="liveScore">0</span>
+          </div>
+        </div>
+        <div class="quiz-question-box">
+          <p id="questionText" class="quiz-q-text"></p>
+          <div class="quiz-options" id="quizOptions"></div>
+          <div class="quiz-feedback" id="quizFeedback"></div>
+          <button class="btn btn-quiz-next mt-3" id="nextQBtn" style="display:none">
+            Next Question <i class="fas fa-arrow-right ms-2"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Quiz Result Screen -->
+      <div id="quizResult" class="quiz-screen">
+        <div class="quiz-result-box text-center">
+          <div class="result-icon" id="resultIcon"></div>
+          <h3 id="resultTitle"></h3>
+          <div class="result-score-big" id="resultScore"></div>
+          <p id="resultMsg"></p>
+          <div class="result-breakdown" id="resultBreakdown"></div>
+          <!-- Certificate -->
+          <div class="certificate-box" id="certBox" style="display:none">
+            <div class="certificate" id="certificate">
+              <div class="cert-header">
+                <i class="fas fa-road me-2"></i>SafeRoads
+              </div>
+              <div class="cert-title">Certificate of Achievement</div>
+              <div class="cert-subtitle">This certifies that</div>
+              <div class="cert-name" id="certName"></div>
+              <div class="cert-body">has successfully completed the Road Safety Quiz<br/>with a score of <strong id="certScore"></strong></div>
+              <div class="cert-date" id="certDate"></div>
+              <div class="cert-seal"><i class="fas fa-shield-alt"></i></div>
+            </div>
+            <button class="btn btn-quiz-start mt-3" onclick="downloadCert()">
+              <i class="fas fa-download me-2"></i>Download Certificate
+            </button>
+          </div>
+          <div class="d-flex gap-3 justify-content-center mt-4 flex-wrap">
+            <button class="btn btn-quiz-start" id="retakeBtn">
+              <i class="fas fa-redo me-2"></i>Retake Quiz
+            </button>
+            <button class="btn btn-quiz-outline" id="leaderboardBtn">
+              <i class="fas fa-trophy me-2"></i>Leaderboard
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Leaderboard -->
+      <div id="quizLeaderboard" class="quiz-screen">
+        <div class="leaderboard-box">
+          <h4 class="text-center mb-4"><i class="fas fa-trophy me-2"></i>Quiz Leaderboard</h4>
+          <div id="leaderboardList"></div>
+          <button class="btn btn-quiz-outline mt-3" id="backToQuizBtn">
+            <i class="fas fa-arrow-left me-2"></i>Back to Quiz
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     REPORT DANGEROUS ROADS
+============================================================ -->
+<section id="report" class="section-pad">
+  <div class="container">
+    <div class="section-header text-center">
+      <span class="section-tag">Report</span>
+      <h2 class="section-title">Report <span class="gradient-text">Dangerous Roads</span></h2>
+      <p class="section-sub">Help make roads safer by reporting hazards in your area</p>
+    </div>
+    <div class="row g-4 mt-3 align-items-start">
+      <div class="col-lg-6">
+        <div class="report-form-card">
+          <h5 class="mb-4"><i class="fas fa-flag me-2" style="color:var(--accent-red)"></i>Submit a Hazard Report</h5>
+          <form id="reportForm">
+            <div class="mb-3">
+              <label class="form-label">Your Name</label>
+              <div class="input-group-custom">
+                <i class="fas fa-user"></i>
+                <input type="text" id="repName" class="form-control custom-input" placeholder="Full Name" required />
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Email Address</label>
+              <div class="input-group-custom">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="repEmail" class="form-control custom-input" placeholder="email@example.com" required />
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Location / Area</label>
+              <div class="input-group-custom">
+                <i class="fas fa-map-marker-alt"></i>
+                <input type="text" id="repLocation" class="form-control custom-input" placeholder="City, Landmark, Road Name" required />
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Hazard Type</label>
+              <div class="input-group-custom">
+                <i class="fas fa-exclamation-triangle"></i>
+                <select id="repType" class="form-control custom-input" required>
+                  <option value="">Select Hazard Type</option>
+                  <option>Pothole / Damaged Road</option>
+                  <option>Broken Traffic Light</option>
+                  <option>Missing Road Sign</option>
+                  <option>No Street Light</option>
+                  <option>Blocked Emergency Lane</option>
+                  <option>Dangerous Curve / No Guard Rail</option>
+                  <option>Waterlogging on Road</option>
+                  <option>Other</option>
+                </select>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Severity Level</label>
+              <div class="severity-selector">
+                <label class="sev-opt low"><input type="radio" name="severity" value="low" /> <span>Low</span></label>
+                <label class="sev-opt medium"><input type="radio" name="severity" value="medium" /> <span>Medium</span></label>
+                <label class="sev-opt high"><input type="radio" name="severity" value="high" checked /> <span>High</span></label>
+                <label class="sev-opt critical"><input type="radio" name="severity" value="critical" /> <span>Critical</span></label>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Description</label>
+              <textarea id="repDesc" class="form-control custom-input" rows="3" placeholder="Describe the hazard in detail..." required></textarea>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Upload Photo (Optional)</label>
+              <div class="file-upload-area" id="fileUploadArea">
+                <input type="file" id="repImage" accept="image/*" hidden />
+                <i class="fas fa-camera fa-2x mb-2"></i>
+                <p>Click or drag image here</p>
+                <small>Supports JPG, PNG (Max 5MB)</small>
+              </div>
+              <div id="imgPreviewWrap" style="display:none" class="mt-2">
+                <img id="imgPreview" src="" alt="Preview" class="img-preview" />
+                <button type="button" class="btn btn-sm btn-outline-danger mt-1" id="removeImg">Remove</button>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-report-submit w-100">
+              <i class="fas fa-paper-plane me-2"></i>Submit Report
+            </button>
+          </form>
+          <div id="reportSuccess" class="report-success" style="display:none">
+            <i class="fas fa-check-circle fa-3x mb-3"></i>
+            <h5>Report Submitted Successfully!</h5>
+            <p>Thank you for helping make roads safer. Authorities have been notified.</p>
+            <button class="btn btn-sm btn-quiz-outline mt-2" onclick="resetReport()">Submit Another</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="map-card">
+          <h5 class="mb-3"><i class="fas fa-map me-2" style="color:var(--accent-blue)"></i>Hazard Map</h5>
+          <div class="map-container">
+            <iframe
+              src="https://www.openstreetmap.org/export/embed.html?bbox=72.8,18.9,73.1,19.2&layer=mapnik"
+              style="width:100%;height:400px;border:0;border-radius:12px"
+              loading="lazy"
+              title="OpenStreetMap - Hazard Location"
+            ></iframe>
+          </div>
+          <!-- Recent Reports -->
+          <h6 class="mt-4 mb-3"><i class="fas fa-history me-2"></i>Recent Reports</h6>
+          <div class="recent-reports" id="recentReports">
+            <div class="report-item"><span class="rep-badge critical">Critical</span><div><strong>NH-44 Pothole</strong><small>Near Nagpur Toll — 2 hours ago</small></div></div>
+            <div class="report-item"><span class="rep-badge high">High</span><div><strong>Broken Signal Light</strong><small>MG Road, Bangalore — 5 hours ago</small></div></div>
+            <div class="report-item"><span class="rep-badge medium">Medium</span><div><strong>Missing Sign Board</strong><small>Bandra-Worli Sea Link — 1 day ago</small></div></div>
+            <div class="report-item"><span class="rep-badge low">Low</span><div><strong>Road Waterlogging</strong><small>Andheri East, Mumbai — 2 days ago</small></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     EMERGENCY HELP
+============================================================ -->
+<section id="emergency" class="section-pad bg-emergency">
+  <div class="container">
+    <div class="section-header text-center">
+      <span class="section-tag emergency-tag">URGENT</span>
+      <h2 class="section-title">Emergency <span class="gradient-text-red">Help Center</span></h2>
+      <p class="section-sub" style="color:#ccc">One-tap access to emergency services — every second counts</p>
+    </div>
+    <div class="row g-4 mt-3">
+      <div class="col-md-4">
+        <a href="tel:108" class="emergency-card ambulance">
+          <div class="emg-pulse"></div>
+          <div class="emg-icon"><i class="fas fa-ambulance"></i></div>
+          <div class="emg-num">108</div>
+          <div class="emg-label">Ambulance</div>
+          <div class="emg-sub">Emergency Medical Services</div>
+          <div class="emg-call-btn"><i class="fas fa-phone me-2"></i>Call Now</div>
+        </a>
+      </div>
+      <div class="col-md-4">
+        <a href="tel:112" class="emergency-card police">
+          <div class="emg-pulse" style="--clr:#3b82f6"></div>
+          <div class="emg-icon"><i class="fas fa-shield-alt"></i></div>
+          <div class="emg-num">112</div>
+          <div class="emg-label">Police / Emergency</div>
+          <div class="emg-sub">All-in-one Emergency Number</div>
+          <div class="emg-call-btn"><i class="fas fa-phone me-2"></i>Call Now</div>
+        </a>
+      </div>
+      <div class="col-md-4">
+        <a href="tel:101" class="emergency-card fire">
+          <div class="emg-pulse" style="--clr:#f97316"></div>
+          <div class="emg-icon"><i class="fas fa-fire-extinguisher"></i></div>
+          <div class="emg-num">101</div>
+          <div class="emg-label">Fire Brigade</div>
+          <div class="emg-sub">Fire & Rescue Services</div>
+          <div class="emg-call-btn"><i class="fas fa-phone me-2"></i>Call Now</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- First Aid Instructions -->
+    <div class="first-aid-section mt-5">
+      <h4 class="text-center mb-4"><i class="fas fa-first-aid me-2" style="color:var(--accent-red)"></i>Post-Accident First Aid</h4>
+      <div class="row g-3">
+        <div class="col-md-4">
+          <div class="first-aid-card">
+            <div class="fa-step">1</div>
+            <h6><i class="fas fa-eye me-2"></i>Assess Safety</h6>
+            <p>Ensure the scene is safe. Turn off engines. Switch on hazard lights. Place warning triangles 50m behind.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="first-aid-card">
+            <div class="fa-step">2</div>
+            <h6><i class="fas fa-phone me-2"></i>Call for Help</h6>
+            <p>Call 108 (ambulance) and 112 (police) immediately. Give exact location, number of casualties.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="first-aid-card">
+            <div class="fa-step">3</div>
+            <h6><i class="fas fa-heartbeat me-2"></i>Provide First Aid</h6>
+            <p>Do not move injured persons unless in immediate danger. Apply pressure to bleeding wounds. Keep victim warm and calm.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="first-aid-card">
+            <div class="fa-step">4</div>
+            <h6><i class="fas fa-ban me-2"></i>Do NOT Do</h6>
+            <p>Don't remove helmets unless unconscious. Don't give food/water. Don't move vehicles before police arrive.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="first-aid-card">
+            <div class="fa-step">5</div>
+            <h6><i class="fas fa-brain me-2"></i>CPR if Needed</h6>
+            <p>If victim is unresponsive & not breathing: 30 chest compressions + 2 rescue breaths. Continue till help arrives.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="first-aid-card">
+            <div class="fa-step">6</div>
+            <h6><i class="fas fa-file-medical me-2"></i>Document</h6>
+            <p>Photograph the scene, note vehicle numbers. Collect witness information. File FIR within 24 hours.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Additional Emergency Numbers -->
+    <div class="extra-numbers mt-5">
+      <h5 class="text-center mb-3" style="color:#ccc">Additional Emergency Contacts</h5>
+      <div class="row g-3">
+        <div class="col-6 col-md-3"><div class="extra-num-card"><strong>100</strong><small>Police</small></div></div>
+        <div class="col-6 col-md-3"><div class="extra-num-card"><strong>1033</strong><small>Road Accident Relief</small></div></div>
+        <div class="col-6 col-md-3"><div class="extra-num-card"><strong>14567</strong><small>Road Safety Helpline</small></div></div>
+        <div class="col-6 col-md-3"><div class="extra-num-card"><strong>1800-180-1212</strong><small>Govt Road Safety</small></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     VOLUNTEER REGISTRATION FORM
+============================================================ -->
+<section id="volunteer" class="section-pad">
+  <div class="container">
+    <div class="section-header text-center">
+      <span class="section-tag">Join Us</span>
+      <h2 class="section-title">Become a <span class="gradient-text">Road Safety Volunteer</span></h2>
+      <p class="section-sub">Join thousands of volunteers spreading road safety awareness across India</p>
+    </div>
+    <div class="row g-4 mt-3 align-items-start">
+      <div class="col-lg-5">
+        <div class="volunteer-info">
+          <div class="vol-stat-grid">
+            <div class="vol-stat"><i class="fas fa-users"></i><strong>12,450+</strong><small>Volunteers</small></div>
+            <div class="vol-stat"><i class="fas fa-city"></i><strong>320+</strong><small>Cities</small></div>
+            <div class="vol-stat"><i class="fas fa-hands-helping"></i><strong>5,000+</strong><small>Campaigns</small></div>
+            <div class="vol-stat"><i class="fas fa-heart"></i><strong>2.3M+</strong><small>Lives Impacted</small></div>
+          </div>
+          <div class="vol-benefits mt-4">
+            <h6 class="mb-3">Volunteer Benefits</h6>
+            <div class="vol-benefit"><i class="fas fa-certificate"></i><span>Official Volunteer Certificate</span></div>
+            <div class="vol-benefit"><i class="fas fa-tshirt"></i><span>SafeRoads Official T-Shirt</span></div>
+            <div class="vol-benefit"><i class="fas fa-id-badge"></i><span>Digital Volunteer ID Card</span></div>
+            <div class="vol-benefit"><i class="fas fa-star"></i><span>Recognition in Campaigns</span></div>
+            <div class="vol-benefit"><i class="fas fa-graduation-cap"></i><span>Road Safety Training Workshops</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-7">
+        <div class="volunteer-form-card">
+          <form id="volunteerForm" novalidate>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Full Name *</label>
+                <div class="input-group-custom">
+                  <i class="fas fa-user"></i>
+                  <input type="text" id="volName" class="form-control custom-input" placeholder="John Doe" required />
+                </div>
+                <div class="invalid-msg" id="volNameErr"></div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Email Address *</label>
+                <div class="input-group-custom">
+                  <i class="fas fa-envelope"></i>
+                  <input type="email" id="volEmail" class="form-control custom-input" placeholder="email@example.com" required />
+                </div>
+                <div class="invalid-msg" id="volEmailErr"></div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Phone Number *</label>
+                <div class="input-group-custom">
+                  <i class="fas fa-phone"></i>
+                  <input type="tel" id="volPhone" class="form-control custom-input" placeholder="+91 98765 43210" required />
+                </div>
+                <div class="invalid-msg" id="volPhoneErr"></div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">City *</label>
+                <div class="input-group-custom">
+                  <i class="fas fa-city"></i>
+                  <input type="text" id="volCity" class="form-control custom-input" placeholder="Mumbai, Delhi..." required />
+                </div>
+                <div class="invalid-msg" id="volCityErr"></div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Age</label>
+                <div class="input-group-custom">
+                  <i class="fas fa-calendar"></i>
+                  <input type="number" id="volAge" class="form-control custom-input" placeholder="18+" min="16" max="80" />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Cause Interested In *</label>
+                <div class="input-group-custom">
+                  <i class="fas fa-heart"></i>
+                  <select id="volCause" class="form-control custom-input" required>
+                    <option value="">Select Cause</option>
+                    <option>Helmet Awareness Drive</option>
+                    <option>School Road Safety Education</option>
+                    <option>Highway Patrol Assistance</option>
+                    <option>Drunk Driving Awareness</option>
+                    <option>Traffic Signal Education</option>
+                    <option>Accident Victim Support</option>
+                    <option>All of the Above</option>
+                  </select>
+                </div>
+                <div class="invalid-msg" id="volCauseErr"></div>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Availability</label>
+                <div class="availability-check d-flex flex-wrap gap-2">
+                  <label class="avail-opt"><input type="checkbox" value="weekends" /> Weekends</label>
+                  <label class="avail-opt"><input type="checkbox" value="weekdays" /> Weekdays</label>
+                  <label class="avail-opt"><input type="checkbox" value="evenings" /> Evenings</label>
+                  <label class="avail-opt"><input type="checkbox" value="campaigns" /> Special Campaigns</label>
+                </div>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Message / Why do you want to volunteer?</label>
+                <textarea id="volMsg" class="form-control custom-input" rows="3" placeholder="Share your motivation..."></textarea>
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn btn-volunteer-submit w-100">
+                  <i class="fas fa-hands-helping me-2"></i>Register as Volunteer
+                </button>
+              </div>
+            </div>
+          </form>
+          <div id="volunteerSuccess" style="display:none" class="text-center py-4">
+            <i class="fas fa-check-circle fa-4x mb-3" style="color:var(--accent-green)"></i>
+            <h5>Welcome to SafeRoads Team!</h5>
+            <p>Your volunteer registration is complete. We'll contact you within 48 hours.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     AWARENESS BLOG
+============================================================ -->
+<section id="blog" class="section-pad bg-alt">
+  <div class="container">
+    <div class="section-header text-center">
+      <span class="section-tag">Blog</span>
+      <h2 class="section-title">Awareness <span class="gradient-text">Blog</span></h2>
+      <p class="section-sub">Stay informed about road safety news, laws, and best practices</p>
+    </div>
+    <div class="row g-4 mt-3">
+      <div class="col-md-6 col-lg-4">
+        <article class="blog-card">
+          <div class="blog-img-wrap">
+            <div class="blog-img-placeholder" style="background: linear-gradient(135deg, #ef4444, #b91c1c)">
+              <i class="fas fa-helmet-safety fa-3x"></i>
+            </div>
+            <span class="blog-tag">Helmet Safety</span>
+          </div>
+          <div class="blog-body">
+            <div class="blog-meta"><i class="fas fa-calendar me-1"></i>June 2, 2025 &nbsp; <i class="fas fa-clock me-1"></i>5 min read</div>
+            <h6>Why Every Two-Wheeler Rider Needs an ISI Helmet — A Life-Saving Guide</h6>
+            <p>The difference between an ISI and non-certified helmet in a crash can mean life or death. Here's what the science says...</p>
+            <a href="#" class="blog-read-more">Read More <i class="fas fa-arrow-right ms-1"></i></a>
+          </div>
+        </article>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <article class="blog-card">
+          <div class="blog-img-wrap">
+            <div class="blog-img-placeholder" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8)">
+              <i class="fas fa-gavel fa-3x"></i>
+            </div>
+            <span class="blog-tag" style="background:#3b82f6">Traffic Laws</span>
+          </div>
+          <div class="blog-body">
+            <div class="blog-meta"><i class="fas fa-calendar me-1"></i>May 28, 2025 &nbsp; <i class="fas fa-clock me-1"></i>7 min read</div>
+            <h6>New Motor Vehicles Act 2019 — Complete Guide to Updated Traffic Fines & Rules</h6>
+            <p>Penalties for drunk driving increased 10x. Here's everything you need to know about the sweeping reforms...</p>
+            <a href="#" class="blog-read-more">Read More <i class="fas fa-arrow-right ms-1"></i></a>
+          </div>
+        </article>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <article class="blog-card">
+          <div class="blog-img-wrap">
+            <div class="blog-img-placeholder" style="background: linear-gradient(135deg, #10b981, #047857)">
+              <i class="fas fa-moon fa-3x"></i>
+            </div>
+            <span class="blog-tag" style="background:#10b981">Safe Driving</span>
+          </div>
+          <div class="blog-body">
+            <div class="blog-meta"><i class="fas fa-calendar me-1"></i>May 20, 2025 &nbsp; <i class="fas fa-clock me-1"></i>4 min read</div>
+            <h6>10 Essential Tips for Safe Night Driving on Indian Highways</h6>
+            <p>Night driving accounts for 40% of highway fatalities. These proven techniques dramatically reduce your risk...</p>
+            <a href="#" class="blog-read-more">Read More <i class="fas fa-arrow-right ms-1"></i></a>
+          </div>
+        </article>
+      </div>
+    </div>
+    <!-- Newsletter -->
+    <div class="newsletter-box mt-5">
+      <div class="row align-items-center">
+        <div class="col-md-6">
+          <h5><i class="fas fa-bell me-2"></i>Get Road Safety Updates</h5>
+          <p class="mb-0">Subscribe to our newsletter for safety tips, new laws, and campaign updates.</p>
+        </div>
+        <div class="col-md-6">
+          <div class="newsletter-form d-flex gap-2 mt-3 mt-md-0">
+            <input type="email" id="newsletterEmail" class="form-control custom-input" placeholder="Enter your email..." />
+            <button class="btn btn-newsletter" id="subscribeBtn">
+              <i class="fas fa-paper-plane me-2"></i>Subscribe
+            </button>
+          </div>
+          <div id="newsletterMsg" class="mt-2 text-success" style="display:none">
+            <i class="fas fa-check-circle me-1"></i>Successfully subscribed!
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TESTIMONIALS
+============================================================ -->
+<section id="testimonials" class="section-pad">
+  <div class="container">
+    <div class="section-header text-center">
+      <span class="section-tag">Stories</span>
+      <h2 class="section-title">Real <span class="gradient-text">Testimonials</span></h2>
+      <p class="section-sub">Hear from people whose lives were transformed by road safety awareness</p>
+    </div>
+    <div class="testimonials-slider mt-4" id="testimonialsSlider">
+      <div class="testi-track" id="testiTrack">
+        <div class="testi-card">
+          <div class="testi-quote"><i class="fas fa-quote-left"></i></div>
+          <p>SafeRoads' helmet awareness campaign saved my brother's life. He started wearing an ISI helmet after attending one of their workshops, and when he had an accident last month, it saved him from a fatal head injury.</p>
+          <div class="testi-author">
+            <div class="testi-avatar">P</div>
+            <div><strong>Priya Sharma</strong><small>Mumbai, Maharashtra</small></div>
+            <div class="testi-stars">⭐⭐⭐⭐⭐</div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-quote"><i class="fas fa-quote-left"></i></div>
+          <p>The 3D accident simulation really hit me hard. I used to drive after a drink or two thinking I was fine. Now I know the science behind impaired driving. I'll never drink and drive again. Thank you SafeRoads.</p>
+          <div class="testi-author">
+            <div class="testi-avatar" style="background:#3b82f6">R</div>
+            <div><strong>Rahul Verma</strong><small>Delhi, NCR</small></div>
+            <div class="testi-stars">⭐⭐⭐⭐⭐</div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-quote"><i class="fas fa-quote-left"></i></div>
+          <p>As a school teacher, I used SafeRoads' traffic rules module to educate 300 students. The interactive quizzes made learning fun. We've seen a significant improvement in road sense among our students.</p>
+          <div class="testi-author">
+            <div class="testi-avatar" style="background:#10b981">M</div>
+            <div><strong>Meena Patel</strong><small>Ahmedabad, Gujarat</small></div>
+            <div class="testi-stars">⭐⭐⭐⭐⭐</div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-quote"><i class="fas fa-quote-left"></i></div>
+          <p>The emergency module taught me CPR. Three weeks later, I used it to help an accident victim on the highway before the ambulance arrived. The victim survived. This website is truly life-saving.</p>
+          <div class="testi-author">
+            <div class="testi-avatar" style="background:#f97316">A</div>
+            <div><strong>Arjun Nair</strong><small>Kochi, Kerala</small></div>
+            <div class="testi-stars">⭐⭐⭐⭐⭐</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-controls">
+        <button class="testi-btn" id="testiPrev"><i class="fas fa-chevron-left"></i></button>
+        <div class="testi-dots" id="testiDots"></div>
+        <button class="testi-btn" id="testiNext"><i class="fas fa-chevron-right"></i></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CONTACT SECTION
+============================================================ -->
+<section id="contact" class="section-pad bg-alt">
+  <div class="container">
+    <div class="section-header text-center">
+      <span class="section-tag">Get In Touch</span>
+      <h2 class="section-title">Contact <span class="gradient-text">Us</span></h2>
+    </div>
+    <div class="row g-4 mt-3">
+      <div class="col-lg-4">
+        <div class="contact-info-card">
+          <div class="contact-info-item">
+            <div class="ci-icon"><i class="fas fa-map-marker-alt"></i></div>
+            <div><strong>Address</strong><p>SafeRoads HQ, Road Safety Bhawan,<br/>New Delhi – 110001, India</p></div>
+          </div>
+          <div class="contact-info-item">
+            <div class="ci-icon" style="background:linear-gradient(135deg,#10b981,#047857)"><i class="fas fa-envelope"></i></div>
+            <div><strong>Email</strong><p>help@saferoads.in<br/>report@saferoads.in</p></div>
+          </div>
+          <div class="contact-info-item">
+            <div class="ci-icon" style="background:linear-gradient(135deg,#3b82f6,#1d4ed8)"><i class="fas fa-phone"></i></div>
+            <div><strong>Phone</strong><p>+91 11-2345-6789<br/>Helpline: 14567</p></div>
+          </div>
+          <div class="social-links mt-4">
+            <a href="#" class="social-link" style="background:#1877f2"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-link" style="background:#1da1f2"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-link" style="background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888)"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-link" style="background:#ff0000"><i class="fab fa-youtube"></i></a>
+            <a href="#" class="social-link" style="background:#25d366"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8">
+        <div class="contact-form-card">
+          <form id="contactForm">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Full Name *</label>
+                <div class="input-group-custom">
+                  <i class="fas fa-user"></i>
+                  <input type="text" id="ctName" class="form-control custom-input" placeholder="Your name" required />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Email *</label>
+                <div class="input-group-custom">
+                  <i class="fas fa-envelope"></i>
+                  <input type="email" id="ctEmail" class="form-control custom-input" placeholder="your@email.com" required />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Phone</label>
+                <div class="input-group-custom">
+                  <i class="fas fa-phone"></i>
+                  <input type="tel" id="ctPhone" class="form-control custom-input" placeholder="+91 XXXXX XXXXX" />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Subject</label>
+                <div class="input-group-custom">
+                  <i class="fas fa-tag"></i>
+                  <select id="ctSubject" class="form-control custom-input">
+                    <option>General Inquiry</option>
+                    <option>Volunteer Registration</option>
+                    <option>Road Hazard Report</option>
+                    <option>Partnership / Collaboration</option>
+                    <option>Media / Press</option>
+                    <option>Feedback</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Message *</label>
+                <textarea id="ctMsg" class="form-control custom-input" rows="5" placeholder="Write your message here..." required></textarea>
+              </div>
+              <div class="col-12 d-flex gap-3 align-items-center flex-wrap">
+                <button type="submit" class="btn btn-contact-submit">
+                  <i class="fas fa-paper-plane me-2"></i>Send Message
+                </button>
+                <div id="contactMsg" style="display:none" class="text-success">
+                  <i class="fas fa-check-circle me-1"></i>Message sent! We'll reply within 24 hours.
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <!-- Map -->
+        <div class="contact-map mt-4">
+          <iframe
+            src="https://www.openstreetmap.org/export/embed.html?bbox=77.1,28.5,77.3,28.7&layer=mapnik&marker=28.6,77.2"
+            style="width:100%;height:300px;border:0;border-radius:12px"
+            loading="lazy"
+            title="SafeRoads Office Location"
+          ></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+<footer class="site-footer">
+  <div class="footer-wave">
+    <svg viewBox="0 0 1200 80" preserveAspectRatio="none">
+      <path d="M0,40 C300,80 900,0 1200,40 L1200,80 L0,80 Z" fill="var(--footer-bg)"/>
+    </svg>
+  </div>
+  <div class="footer-main">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="footer-brand">
+            <div class="brand-logo"><i class="fas fa-road"></i><span>Safe<strong>Roads</strong></span></div>
+            <p class="mt-3">India's most comprehensive road safety awareness platform. Making every journey safer through education, technology, and community action.</p>
+            <div class="footer-social mt-3">
+              <a href="#"><i class="fab fa-facebook-f"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="#"><i class="fab fa-youtube"></i></a>
+              <a href="#"><i class="fab fa-whatsapp"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-2 col-md-4">
+          <h6 class="footer-heading">Quick Links</h6>
+          <ul class="footer-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#traffic-rules">Traffic Rules</a></li>
+            <li><a href="#accident-types">Accident Types</a></li>
+            <li><a href="#zone3d">3D Zone</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-2 col-md-4">
+          <h6 class="footer-heading">Services</h6>
+          <ul class="footer-links">
+            <li><a href="#quiz">Road Safety Quiz</a></li>
+            <li><a href="#report">Report Hazard</a></li>
+            <li><a href="#emergency">Emergency Help</a></li>
+            <li><a href="#volunteer">Volunteer</a></li>
+            <li><a href="#blog">Blog</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-2 col-md-4">
+          <h6 class="footer-heading">Emergency</h6>
+          <ul class="footer-links emergency-links">
+            <li><a href="tel:108"><i class="fas fa-ambulance me-1"></i>108 – Ambulance</a></li>
+            <li><a href="tel:112"><i class="fas fa-shield-alt me-1"></i>112 – Emergency</a></li>
+            <li><a href="tel:101"><i class="fas fa-fire me-1"></i>101 – Fire</a></li>
+            <li><a href="tel:100"><i class="fas fa-user-shield me-1"></i>100 – Police</a></li>
+            <li><a href="tel:14567"><i class="fas fa-phone me-1"></i>14567 – Safety</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-2">
+          <h6 class="footer-heading">Legal</h6>
+          <ul class="footer-links">
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Use</a></li>
+            <li><a href="#">Cookie Policy</a></li>
+            <li><a href="#">Disclaimer</a></li>
+            <li><a href="#">Accessibility</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-6">
+          <p>&copy; 2025 SafeRoads India. All Rights Reserved.</p>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <p>Made with <i class="fas fa-heart" style="color:#ef4444"></i> for Safer Roads in India</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Accident Modal -->
+<div class="modal fade" id="accidentModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content modal-custom">
+      <div class="modal-header border-0">
+        <h5 class="modal-title" id="modalAccTitle"></h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row g-4">
+          <div class="col-md-4">
+            <div class="modal-section causes-section">
+              <h6><i class="fas fa-exclamation-triangle me-2" style="color:#ef4444"></i>Main Causes</h6>
+              <ul id="modalCauses"></ul>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="modal-section examples-section">
+              <h6><i class="fas fa-book me-2" style="color:#3b82f6"></i>Real-Life Facts</h6>
+              <ul id="modalExamples"></ul>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="modal-section prevention-section">
+              <h6><i class="fas fa-shield-alt me-2" style="color:#10b981"></i>Prevention</h6>
+              <ul id="modalPrevention"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
